@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+
+    public UserController(UserService userService){
+        this.userService = userService;
+    }
 
    @PostMapping("/register")
     public String registerUser(@RequestBody User user){
-       boolean success = userService.createUser(user);
+       boolean success = userService.registerUser(user);
        return success ? "Bruger oprettet" : "Email eksisterer allerede.";
-
-
    }
-
 
    @GetMapping("/logout")
     public String logout(HttpSession session){
