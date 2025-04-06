@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 //hiiiii
 @Controller
-@RequestMapping("/wishlist") // Previously ("/wishlist") -> removed!
+
 public class WishlistController {
+
+    @GetMapping("/")
+    public String showFrontPage(){
+        return "frontPage";
+    }
 
     private final WishlistService wishlistService;
     private final UserService userService;
@@ -36,7 +41,7 @@ public class WishlistController {
                 wishlist.getDescription(),
                 1L // User-id should be set correctly (e.g., from session)
         );
-        return "redirect:/wishlist/list"; // Redirect to wishlist view
+        return "redirect:/list"; // Redirect to wishlist view
     }
 
     @GetMapping("/list")
