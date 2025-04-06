@@ -1,72 +1,72 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <link rel="stylesheet" href="/logout-btn.css">
-  <meta charset="UTF-8">
-  <title>Log ud</title>
-  <meta http-equiv="refresh" content="5;url=/login">
-  <style>
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    <link rel="stylesheet" href="/logout-btn.css">
+    <meta charset="UTF-8">
+    <title>Log ud</title>
+    <meta http-equiv="refresh" content="5;url=/login">
+    <style>
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #00A86B, #00573F);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: white;
-    }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #00A86B, #00573F);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
 
-    .logout-box {
-      background-color: rgba(0, 0, 0, 0.2);
-      padding: 50px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      text-align: center;
-      animation: fadeInUp 1s ease;
-    }
+        .logout-box {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
 
-    .logout-box h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
+        .logout-box h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
 
-    .logout-box p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-    }
+        .logout-box p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
 
-    .logout-box a {
-      text-decoration: none;
-      background-color: #ffffff;
-      color: #00573F;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
+        .logout-box a {
+            text-decoration: none;
+            background-color: #ffffff;
+            color: #00573F;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
 
-    .logout-box a:hover {
-      background-color: #ddd;
-    }
-  </style>
+        .logout-box a:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
 <div class="logout-box">
-  <h1>Du er nu logget ud </h1>
-  <p>Tak fordi du brugte Wishlist.<br>Du bliver automatisk sendt til login-siden om 5 sekunder.</p>
-  <a href="/login">Eller klik her for at logge ind igen</a>
+    <h1>Du er nu logget ud </h1>
+    <p>Tak fordi du brugte Wishlist.<br>Du bliver automatisk sendt til login-siden om 5 sekunder.</p>
+    <a href="/login">Eller klik her for at logge ind igen</a>
 </div>
 </body>
 </html>

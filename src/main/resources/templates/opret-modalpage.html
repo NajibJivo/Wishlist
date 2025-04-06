@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Modal</title>
+    <link rel="stylesheet" href="css/opret-modal.css">
+</head>
+<body>
+
+<!-- opret Modal -->
+<div class="modal fullscreen-center centered">
+    <div class="modal-content">
+        <h2>Opret profil</h2>
+        <br>
+        <!-- opret Form -->
+        <form action="/opretModal" method="post">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" placeholder="Nogen@example.com" required>
+
+            <label for="password">Adgangskode:</label>
+            <input type="password" id="password" name="password" placeholder="Adgangskode" required>
+
+            <br>
+
+            <button type="submit" class="login-btn">Opret</button>
+        </form>
+
+        <br>
+        <h4>Elle opret en profil via:</h4>
+        <div class="social-login-buttons">
+            <a href="https://www.icloud.com" target="_blank" class="social-btn icloud-btn">iCloud</a>
+            <a href="https://www.facebook.com" target="_blank" class="social-btn facebook-btn">Facebook</a>
+            <a href="https://mail.google.com" target="_blank" class="social-btn gmail-btn">Gmail</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

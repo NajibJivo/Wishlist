@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Modal</title>
+    <link rel="stylesheet" href="css/login-modal.css">
+</head>
+<body>
+
+<!-- Login Modal -->
+<div class="modal fullscreen-center centered">
+    <div class="modal-content">
+        <h2>Log Ind</h2>
+        <br>
+        <!-- Login Form -->
+        <form action="/loginModal" method="post">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" placeholder="Nogen@example.com" required>
+
+            <label for="password">Adgangskode:</label>
+            <input type="password" id="password" name="password" placeholder="Adgangskode" required>
+
+            <br>
+
+            <button type="submit" class="login-btn">Log Ind</button>
+        </form>
+
+        <br>
+        <h4>Eller log ind via:</h4>
+        <div class="social-login-buttons">
+            <a href="https://www.icloud.com" target="_blank" class="social-btn icloud-btn">iCloud</a>
+            <a href="https://www.facebook.com" target="_blank" class="social-btn facebook-btn">Facebook</a>
+            <a href="https://mail.google.com" target="_blank" class="social-btn gmail-btn">Gmail</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

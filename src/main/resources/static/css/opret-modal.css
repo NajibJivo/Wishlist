@@ -1,0 +1,114 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    height: 100vh;
+}
+
+/* Utilities for Centering */
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fullscreen-center {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Modal Background */
+.modal {
+    background: linear-gradient(to right, #00A86B, #00573F);
+}
+
+/* Modal Box */
+.modal-content {
+    background: #00573F;
+    padding: 70px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Input Fields */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Login Button */
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background:  #00A86B;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+h2, label, h4 {
+    color: white;
+}
+
+.login-btn:hover {
+    background-color: #003e2b;
+}
+
+/* Social Buttons */
+.social-login-buttons {
+    margin-top: 20px;
+}
+
+.social-btn {
+    display: inline-block;
+    padding: 10px 19px;
+    margin: 10px;
+    background-color: #4c4c4c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.social-btn:hover {
+    background-color: #3a3a3a;
+}
+
+/* Specific Social Colors */
+.icloud-btn {
+    background-color: #8b8b8b;
+}
+.icloud-btn:hover {
+    background-color: #666;
+}
+
+.facebook-btn {
+    background-color: #3b5998;
+}
+.facebook-btn:hover {
+    background-color: #2d4373;
+}
+
+.gmail-btn {
+    background-color: #d14836;
+}
+.gmail-btn:hover {
+    background-color: #c13521;
+}
