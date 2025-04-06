@@ -16,8 +16,8 @@ public class WishlistService {
 
     }
 
-    public void createWishlist(String name, String description, Long userId) {
-        wishlistRepository.save(name, description, userId);
+    public void createWishlist(Wishlist wishlist) {
+        wishlistRepository.save(wishlist);
     }
 
     public List<Wishlist> getAllWishList() {

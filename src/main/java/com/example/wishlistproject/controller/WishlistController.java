@@ -21,22 +21,24 @@ public class WishlistController {
         this.userService = userService;
     }
 
-    // 👇 GET: Displays the form to create a wishlist
+    // GET: Displays the form to create a wishlist
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("wishlist", new Wishlist());
         return "create-wishlist"; // corresponds to create-wishlist.html
     }
 
-    // 👇 POST: Processes the form for creating a wishlist
+    //  POST: Processes the form for creating a wishlist
     @PostMapping("/create")
-    public String createWishlist(@ModelAttribute Wishlist wishlist, Model model) {
-        wishlistService.createWishlist(
-                wishlist.getName(),
-                wishlist.getDescription(),
-                1L // User-id should be set correctly (e.g., from session)
-        );
-        return "redirect:/wishlist/list"; // Redirect to wishlist view
+    public String createWishlist(@ModelAttribute Wishlist wishlist, HttpSession session) {
+        Object userIdObj = session.getAttribute("userId");
+        if(userIdObj == null) {
+            return "redirect:/login"; // Redirect to wishlist view
+        }
+
+        wishlist.setUserId(Long.valueOf(userIdObj.toString())); // Sæt userId fra session
+        wishlistService.createWishlist(wishlist); // Brug objektet direkte
+        return "redirect:/login";
     }
 
     @GetMapping("/list")
@@ -51,7 +53,7 @@ public class WishlistController {
         return "wishlist-list"; // corresponds to wishlist-list.html
     }
 
-    // 👇 GET: Displays the login form
+    //  GET: Displays the login form
     @GetMapping("/loginModal")
     public String showLoginForm() {
         return "login-modalpage";  // This returns login-modalpage.html
@@ -60,7 +62,7 @@ public class WishlistController {
     // 👇 POST: Handles the login form submission
     // en session timeout er pr. default 15 minutter
 
-    //loginModal der popper frem efter man har trykket på log ind.
+    // LoginModal der popper frem efter man har trykket på log ind.
     @PostMapping("/loginModal")
     public String processLogin(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         // Here, you would validate the user credentials (e.g., check DB)
@@ -77,16 +79,16 @@ public class WishlistController {
         }
     }
 
-    //opretModal der popper frem efter man har trykket på log ind.
+    // Opret Modal, der popper frem efter man har trykket på log ind.
     @GetMapping("/opretModal")
     public String showOpretForm() {
         return "opret-modalpage";  // This returns login-modalpage.html
     }
 
-    // 👇 POST: Handles the login form submission
-    // en session timeout er pr. default 15 minutter
 
-    //loginModal der popper frem efter man har trykket på log ind.
+    // En session timeout er pr. default 15 minutter
+
+    // Login Modal der popper frem efter man har trykket på log ind.
     @PostMapping("/opretModal")
     public String processOpret(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         // Here, you would validate the user credentials (e.g., check DB)
@@ -98,8 +100,6 @@ public class WishlistController {
         } else {
             model.addAttribute("error", "Forkert email eller adgangskode");
             return "opret-modalpage";
-
-
         }
     }
 

@@ -15,9 +15,9 @@ public class WishlistRepository  {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(String name, String description, Long userId) {
-        String sql = "INSERT INTO wishlist (name, description, userId) VALUES (?,?,?)";
-        jdbcTemplate.update(sql,name,description, userId);
+    public void save(Wishlist  wishlist) {
+        String sql = "INSERT INTO wishlist (name, description, user_id) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, wishlist.getName(), wishlist.getDescription(), wishlist.getUserId());
     }
 
     public List<Wishlist> findAll() {
@@ -27,21 +27,25 @@ public class WishlistRepository  {
             w.setWishlistId(rs.getLong("wishlist_id"));
             w.setName(rs.getString("name"));
             w.setDescription(rs.getString("description"));
-            w.setUserId(rs.getLong("user_Id"));
+            w.setUserId(rs.getLong("user_id"));
             return w;
         });
     }
 
     public List<Wishlist> findByUserId(Long userId){
-        String sqlQuery = "SELECT * FROM wishlist WHERE userId = ?"; /** ? er placeholder for userId . **/
+        String sqlQuery = "SELECT * FROM wishlist WHERE user_id = ?"; /** ? er placeholder for userId . **/
         return jdbcTemplate.query(sqlQuery, new Object[] {userId}, (rs, rowNum) -> {
             Wishlist wishlist = new Wishlist();
             wishlist.setWishlistId(rs.getLong("wishlist_id"));
             wishlist.setName(rs.getString("name"));
             wishlist.setDescription(rs.getString("description"));
-            wishlist.setUserId(rs.getLong("userId"));
+            wishlist.setUserId(rs.getLong("user_id"));
             return wishlist;
         });
     }
 
+    public void deleteAll() {
+        String sql = "DELETE FROM wishlist";
+        jdbcTemplate.update(sql);
+    }
 }
