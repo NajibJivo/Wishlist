@@ -1,5 +1,4 @@
 package com.example.wishlistproject.service;
-import com.example.wishlistproject.model.User;
 import com.example.wishlistproject.model.Wishlist;
 import com.example.wishlistproject.repository.UserRepository;
 import com.example.wishlistproject.repository.WishlistRepository;
@@ -25,7 +24,7 @@ public class WishlistService {
         return wishlistRepository.findAll();
     }
 
-    public List<Wishlist> w(Long userId){
+    public List<Wishlist> getWishlistsForUser(Long userId){
         return wishlistRepository.findByUserId(userId);
     }
 
