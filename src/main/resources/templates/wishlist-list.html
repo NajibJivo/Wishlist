@@ -43,7 +43,7 @@
         <div th:if="${wishlists.isEmpty()}" class="wishlist-card placeholder-card">
             <div class="card-content">
                 <div class="placeholder-image">
-                    <img th:src="@{/images/thought.jpg}" alt="Thought Cloud">
+                    <img th:src="@{/images/thought.jpg}" alt="Thought Placeholder">
                 </div>
                 <div class="placeholder-text">
                     Tilføj flere ønskelister for at se dem her...
@@ -55,7 +55,7 @@
         <div th:if="${!wishlists.isEmpty() && wishlists.size() < 6}" class="wishlist-card placeholder-card">
             <div class="card-content">
                 <div class="placeholder-image">
-                    <img th:src="@{/images/thought.jpg}" alt="Image did not load">
+                    <img th:src="@{/images/thought.jpg}" alt="Thought Placeholder">
                 </div>
                 <div class="placeholder-text">
                     Tilføj flere ønskelister for at se dem her...

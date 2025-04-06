@@ -16,8 +16,15 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(User user) {
-        userRepository.save(user);
+    public boolean registerUser(User user) {
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail()); /** Check if a user with the given email already exists **/
+
+        if (existingUser.isPresent()){
+            return false; /** User with that email already exists **/
+        } else{
+            userRepository.save(user);
+            return true; /** User created sucesfully **/
+        }
     }
 
     public Optional<User> findByEmail(String email) {
@@ -30,6 +37,19 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User loginUser(String email, String password){
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()){
+            User aUser = user.get();
+            if (aUser.getPassword().equals(password)){
+                return aUser;
+            } else {
+                return null; /** Password is incorrect**/
+            }
+        }
+        return null; /** User not found **/
     }
 
 }
