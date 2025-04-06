@@ -36,9 +36,10 @@ public class WishlistController {
             return "redirect:/login"; // Redirect to wishlist view
         }
 
-        wishlist.setUserId(Long.valueOf(userIdObj.toString())); // Sæt userId fra session
-        wishlistService.createWishlist(wishlist); // Brug objektet direkte
-        return "redirect:/login";
+        Long userId = Long.valueOf(userIdObj.toString()); // Brug objektet direkte
+       wishlist.setUserId(userId); // Denne version tager et Wishlist-objekt
+        wishlistService.createWishlist(wishlist);
+        return "redirect:/wishlist/list";
     }
 
     @GetMapping("/list")

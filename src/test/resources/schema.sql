@@ -6,7 +6,7 @@ CREATE TABLE wishlist (
                           user_id BIGINT
 );
 
-CREATE TABLE user (
+CREATE TABLE "user" (
                       user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                       email VARCHAR(255),
                       password VARCHAR(255)
