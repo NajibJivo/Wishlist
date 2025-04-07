@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//hiiiii
+
 @Controller
 @RequestMapping("") // Previously called ("/wishlist") now it's edited to ("")
 public class WishlistController {
