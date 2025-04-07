@@ -16,10 +16,11 @@ public class UserRepository {
     }
 
 
-    public void save(User user) {
-
+    public Optional<User> save(User user) {
         String sql = "INSERT INTO user (name, email, password) VALUE (?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword());
+        Long lastId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class); /** Hent det sidst indsatte ID **/
+        return findById(lastId); /** Returner den oprettede bruger **/
     }
 
     public Optional<User> findById(Long id) {
