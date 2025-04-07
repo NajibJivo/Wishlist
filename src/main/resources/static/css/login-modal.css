@@ -112,3 +112,20 @@ h2, label, h4 {
 .gmail-btn:hover {
     background-color: #c13521;
 }
+.error-message {
+    color: red;
+    background-color: #ffe0e0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid red;
+    border-radius: 5px;
+}
+
+.success-message {
+    color: green;
+    background-color: #e0ffe0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid green;
+    border-radius: 5px;
+}

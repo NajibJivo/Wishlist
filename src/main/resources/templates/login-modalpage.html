@@ -13,6 +13,15 @@
     <div class="modal-content">
         <h2>Log Ind</h2>
         <br>
+
+        <!-- FEJL/SUCCES beskeder -->
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+        <div th:if="${success}" class="success-message">
+            <p th:text="${success}"></p>
+        </div>
+
         <!-- Login Form -->
         <form action="/loginModal" method="post">
             <label for="email">E-mail:</label>

@@ -50,10 +50,9 @@ public class UserController {
             session.setAttribute("userId", user.getUserId());
             return "redirect:/list";
         } else {
+            // Fejlbesked ved forkert login
             model.addAttribute("error", "Forkert email eller adgangskode");
             return "login-modalpage";
-
-
         }
     }
 
