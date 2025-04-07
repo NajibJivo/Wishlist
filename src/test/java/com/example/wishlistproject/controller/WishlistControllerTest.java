@@ -53,8 +53,7 @@ class WishlistControllerTest {
         mockMvc.perform(post("/wishlist/create")
                 .sessionAttr("userId", 1L)
                 .param("name", "Ferieønsker")
-                .param("description", "Sommerhus 2025")
-                .param("imageUrl", "https://example.com/img.jpg"))
+                .param("description", "Sommerhus 2025"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/wishlist/list"));
 
