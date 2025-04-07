@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  redirectedUrl(...)	                    Tjekker destination for redirect
  wishlistRepository.findByUserId(1L)	Bekræfter at data blev gemt korrekt  **/
 
+@Sql(scripts = "/test-schema.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @SpringBootTest
 @AutoConfigureMockMvc
 class WishlistControllerTest {
@@ -33,10 +36,17 @@ class WishlistControllerTest {
 
     @Autowired
     private WishlistRepository wishlistRepository;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     void setUp() {
         wishlistRepository.deleteAll();
+        jdbcTemplate.update("DELETE FROM users");
+
+        // Tilføj testbruger med user_id = 1
+        jdbcTemplate.update("INSERT INTO users(user_id, email, name, password) VALUES (?, ?, ?, ?)",
+                1L, "test@example.com", "Test Bruger", "test123");
     }
 
     @Test
@@ -80,5 +90,19 @@ class WishlistControllerTest {
                 .andExpect(model().attributeExists("wishlist"));
     }
 
+    @Test
+    void createWishlist_shouldSaveImageUrl_whenUserLoggedIn() throws Exception{
+        mockMvc.perform(post("/wishlist/create")
+                .sessionAttr("userId", 1L)
+                .param("name", "Test Ønskeseddel")
+                .param("description", "Test beskrivelse")
+                .param("imageUrl", "https://billede.dk/test.jpg"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wishlist/list"));
 
+        // Bekræft at imageUrl blev gemt korrekt
+        List<Wishlist> wishlists = wishlistRepository.findByUserId(1l);
+        assertEquals(1,wishlists.size());
+        assertEquals("https://billede.dk/test.jpg",wishlists.get(0).getImageUrl());
+    }
 }

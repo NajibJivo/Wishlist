@@ -6,11 +6,11 @@ INSERT INTO User(email, name, password) VALUES
 ('najib@example.com', 'Najib', 'hashed_password_4');
 
 -- Indsæt test ønskesedler
-INSERT INTO Wishlist(name, description, user_id) VALUES
-('Ayans Ønskeseddel', 'Ønsker til Eid', 1),
-('Daniels Ønskeseddel', 'Ønsker til Gudsmoder fødsel', 2),
-('Lawand Ønskeseddel', 'Ønsker til Eid', 3),
-('Najib Ønskeseddel', 'Ønsker til fødselsdag', 4);
+INSERT INTO Wishlist(name, description, image_url, user_id) VALUES
+('Ayans Ønskeseddel', 'Ønsker til Eid','https://example.com/img1.jpg' , 1),
+('Daniels Ønskeseddel', 'Ønsker til Gudsmoder fødsel','https://example.com/img2.jpg',2),
+('Lawand Ønskeseddel', 'Ønsker til Eid','https://example.com/img3.jpg' ,3),
+('Najib Ønskeseddel', 'Ønsker til fødselsdag','https://example.com/img4.jpg',4);
 
 -- Indsæt test produkter
 INSERT INTO Product (name, description, price, link) VALUES

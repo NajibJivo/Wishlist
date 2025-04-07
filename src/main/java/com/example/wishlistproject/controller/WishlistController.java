@@ -41,9 +41,9 @@ public class WishlistController {
             return "redirect:/login";  // Redirect, hvis ikke logget ind
         }
 
-        Long userId = (Long) userIdObj;
+        Long userId = Long.valueOf(userIdObj.toString());
        wishlist.setUserId(userId); // Sæt bruger-ID på wishlist
-        wishlistService.createWishlist(wishlist); // Gem ønskelisten
+        wishlistService.createWishlist(wishlist); // Gem ønskelisten, tager et Wishlist-objekt med imageUrl
 
         return "redirect:/wishlist/list"; // Redirect til listevisning
     }

@@ -3,7 +3,7 @@ CREATE DATABASE wishlist_db;
 USE wishlist_db;
 
 -- 2. Opret User-tabellen
-CREATE TABLE User (
+CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -15,8 +15,9 @@ CREATE TABLE Wishlist (
     wishlist_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
+    image_url VARCHAR(512),
     user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 -- 4. Opret Product-tabellen
@@ -46,7 +47,7 @@ CREATE TABLE Reservation (
     product_id INT NOT NULL,
     reservation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     status ENUM('Reserved', 'Bought', 'Canceled') NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (wishlist_id) REFERENCES Wishlist(wishlist_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
 );

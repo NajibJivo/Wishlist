@@ -16,8 +16,12 @@ public class WishlistRepository  {
     }
 
     public void save(Wishlist  wishlist) {
-        String sql = "INSERT INTO wishlist (name, description, user_id) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, wishlist.getName(), wishlist.getDescription(), wishlist.getUserId());
+        String sql = "INSERT INTO wishlist (name, description, image_url, user_id) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                wishlist.getName(),
+                wishlist.getDescription(),
+                wishlist.getImageUrl(),
+                wishlist.getUserId());
     }
 
     public List<Wishlist> findAll() {
@@ -27,6 +31,7 @@ public class WishlistRepository  {
             w.setWishlistId(rs.getLong("wishlist_id"));
             w.setName(rs.getString("name"));
             w.setDescription(rs.getString("description"));
+            w.setImageUrl(rs.getString("image_url"));
             w.setUserId(rs.getLong("user_id"));
             return w;
         });
@@ -39,6 +44,7 @@ public class WishlistRepository  {
             wishlist.setWishlistId(rs.getLong("wishlist_id"));
             wishlist.setName(rs.getString("name"));
             wishlist.setDescription(rs.getString("description"));
+            wishlist.setImageUrl(rs.getString("image_url"));
             wishlist.setUserId(rs.getLong("user_id"));
             return wishlist;
         });
