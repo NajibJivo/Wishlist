@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping("/wishlist")
+@RequestMapping("/wishlist") //Previously called ("/wishlist) now it's editted to ("")
 public class WishlistController {
 
     private final WishlistService wishlistService;
