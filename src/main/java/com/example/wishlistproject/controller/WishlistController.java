@@ -21,6 +21,11 @@ public class WishlistController {
         this.userService = userService;
     }
 
+   @GetMapping("/")
+   public String showFrontPage(){
+        return "frontPage";
+   }
+
     // GET: Displays the form to create a wishlist
     @GetMapping("/create")
     public String showCreateForm(Model model) {
