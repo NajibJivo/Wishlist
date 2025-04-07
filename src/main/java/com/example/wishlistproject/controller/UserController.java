@@ -5,10 +5,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -58,8 +57,9 @@ public class UserController {
 
     // Opret Modal, der popper frem efter man har trykket på log ind.
     @GetMapping("/opretModal")
-    public String showOpretForm() {
-        return "opret-modalpage";  // This returns login-modalpage.html
+    public String showOpretForm(Model model) {
+        model.addAttribute("user",new User());
+        return "opret-modalpage";
     }
 
 
@@ -67,12 +67,11 @@ public class UserController {
 
     // Login Modal der popper frem efter man har trykket på log ind..
     @PostMapping("/opretModal")
-    public String processOpret(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
-        // Here, you would validate the user credentials (e.g., check DB)
-        User user = userService.loginUser(email, password);
+    public String processOpret(@ModelAttribute User user, HttpSession session, Model model) {
+        Optional<User> createdUser = userService.createUser(user);
 
-        if (user !=null) {
-            session.setAttribute("userId", user.getUserId());
+        if (createdUser.isPresent()) {
+            session.setAttribute("userId", createdUser.get().getUserId()); /** extra get so the User object was unwrapped out of  Optional**/
             return "redirect:/list";
         } else {
             model.addAttribute("error", "Forkert email eller adgangskode");

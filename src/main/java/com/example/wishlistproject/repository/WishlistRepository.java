@@ -48,4 +48,8 @@ public class WishlistRepository  {
         String sql = "DELETE FROM wishlist";
         jdbcTemplate.update(sql);
     }
+
+    public Wishlist findById(Long id) {
+        return null;
+    }
 }
