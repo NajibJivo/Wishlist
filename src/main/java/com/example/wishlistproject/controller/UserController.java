@@ -72,7 +72,7 @@ public class UserController {
 
         if (createdUser.isPresent()) {
             session.setAttribute("userId", createdUser.get().getUserId()); /** extra get so the User object was unwrapped out of  Optional**/
-            return "redirect:/list";
+            return "redirect:/wishlist/list";
         } else {
             model.addAttribute("error", "Forkert email eller adgangskode");
             return "opret-modalpage";
