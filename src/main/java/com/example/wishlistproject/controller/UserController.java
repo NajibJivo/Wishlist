@@ -65,7 +65,7 @@ public class UserController {
 
     // En session timeout er pr. default 15 minutter
 
-    // Login Modal der popper frem efter man har trykket på log ind..
+    // Login Modal der popper frem efter man har trykket på log ind.
     @PostMapping("/opretModal")
     public String processOpret(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
         // Here, you would validate the user credentials (e.g., check DB)
