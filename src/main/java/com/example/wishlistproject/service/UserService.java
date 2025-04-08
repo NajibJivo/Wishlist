@@ -52,4 +52,14 @@ public class UserService {
         return null; /** User not found **/
     }
 
+    public Optional<User> createUser(User user){
+        Optional <User> existingUser = userRepository.findByEmail((user.getEmail()));
+        if(existingUser.isPresent()){
+            return Optional.empty(); /** User with that email already exists **/
+        } else{
+            return userRepository.save(user);
+        }
+    }
+
+
 }

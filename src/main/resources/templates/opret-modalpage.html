@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opret Modal</title>
-    <link rel="stylesheet" href="css/opret-modal.css">
+    <link rel="stylesheet" th:href="@{css/opret-modal.css}">
 </head>
 <body>
 
@@ -13,13 +14,20 @@
     <div class="modal-content">
         <h2>Opret profil</h2>
         <br>
+
         <!-- opret Form -->
-        <form action="/opretModal" method="post">
+        <form th:action="@{/opretModal}" th:object="${user}" method="post">
             <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" placeholder="Nogen@example.com" required>
+            <input type="email" id="email" th:field="*{email}" placeholder="Nogen@example.com" required>
+
+            <label for="name">Navn:</label>
+            <input type="text" id="name" th:field="*{name}" placeholder="Dit Navn" required>
 
             <label for="password">Adgangskode:</label>
-            <input type="password" id="password" name="password" placeholder="Adgangskode" required>
+            <input type="password" id="password" th:field="*{password}" placeholder="Adgangskode" required>
+
+            <!-- Fejlmeddelelse hvis der er en -->
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
 
             <br>
 

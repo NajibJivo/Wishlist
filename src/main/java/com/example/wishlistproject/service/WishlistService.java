@@ -27,4 +27,13 @@ public class WishlistService {
     public List<Wishlist> getWishlistsForUser(Long userId){
         return wishlistRepository.findByUserId(userId);
     }
+
+    public Wishlist getWishlistById(Long id) {
+        return wishlistRepository.findById(id);
+    }
+
+    public void test(){
+        // callauan akfjaskfj
+        // return value;
+    }
 }
