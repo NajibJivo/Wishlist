@@ -15,6 +15,7 @@ public class WishlistRepository  {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // Create
     public void save(Wishlist  wishlist) {
         String sql = "INSERT INTO wishlist (name, description, image_url, user_id) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql,
@@ -24,29 +25,46 @@ public class WishlistRepository  {
                 wishlist.getUserId());
     }
 
-    public List<Wishlist> findAll() {
-        String sql = "SELECT * FROM wishlist";
-        return jdbcTemplate.query(sql,(rs, rowNum)-> {
-            Wishlist w = new Wishlist();
-            w.setWishlistId(rs.getLong("wishlist_id"));
-            w.setName(rs.getString("name"));
-            w.setDescription(rs.getString("description"));
-            w.setImageUrl(rs.getString("image_url"));
-            w.setUserId(rs.getLong("user_id"));
-            return w;
+    // Read
+    public Wishlist findById(Long id) {
+        String sql = "SELECT * FROM wishlist WHERE wishlist_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
+            Wishlist wish = new Wishlist();
+            wish.setWishlistId(rs.getLong("wishlist_id"));
+            wish.setName(rs.getString("name"));
+            wish.setDescription(rs.getString("description"));
+            wish.setImageUrl(rs.getString("image_url"));
+            wish.setUserId(rs.getLong("user_id"));
+            return wish;
         });
     }
 
-    public List<Wishlist> findByUserId(Long userId){
-        String sqlQuery = "SELECT * FROM wishlist WHERE user_id = ?"; /** ? er placeholder for userId . **/
-        return jdbcTemplate.query(sqlQuery, new Object[] {userId}, (rs, rowNum) -> {
-            Wishlist wishlist = new Wishlist();
-            wishlist.setWishlistId(rs.getLong("wishlist_id"));
-            wishlist.setName(rs.getString("name"));
-            wishlist.setDescription(rs.getString("description"));
-            wishlist.setImageUrl(rs.getString("image_url"));
-            wishlist.setUserId(rs.getLong("user_id"));
-            return wishlist;
+    // Update
+    public void update(Wishlist wishlist) {
+        String sql = "UPDATE wishlist SET name = ?, description = ?, image_url = ? WHERE wishlist_id = ?";
+        jdbcTemplate.update(sql,
+                wishlist.getName(),
+                wishlist.getDescription(),
+                wishlist.getImageUrl(),
+                wishlist.getWishlistId());
+    }
+
+    // Delete
+    public void deleteById(Long id){
+        String sql = "DELETE FROM wishlist WHERE wishlist_id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    public List<Wishlist> findAll() {
+        String sql = "SELECT * FROM wishlist";
+        return jdbcTemplate.query(sql,(rs, rowNum)-> {
+            Wishlist wish = new Wishlist();
+            wish.setWishlistId(rs.getLong("wishlist_id"));
+            wish.setName(rs.getString("name"));
+            wish.setDescription(rs.getString("description"));
+            wish.setImageUrl(rs.getString("image_url"));
+            wish.setUserId(rs.getLong("user_id"));
+            return wish;
         });
     }
 
@@ -55,7 +73,16 @@ public class WishlistRepository  {
         jdbcTemplate.update(sql);
     }
 
-    public Wishlist findById(Long id) {
-        return null;
+    public List<Wishlist> findByUserId(Long userId){
+        String sqlQuery = "SELECT * FROM wishlist WHERE user_id = ?"; /** ? er placeholder for userId . **/
+        return jdbcTemplate.query(sqlQuery, new Object[] {userId}, (rs, rowNum) -> {
+            Wishlist wish = new Wishlist();
+            wish.setWishlistId(rs.getLong("wishlist_id"));
+            wish.setName(rs.getString("name"));
+            wish.setDescription(rs.getString("description"));
+            wish.setImageUrl(rs.getString("image_url"));
+            wish.setUserId(rs.getLong("user_id"));
+            return wish;
+        });
     }
 }
