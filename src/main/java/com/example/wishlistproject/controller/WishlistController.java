@@ -60,5 +60,5 @@ public class WishlistController {
         model.addAttribute("wishlists", wishlistService.getWishlistsForUser(userId));
         return "wishlist-list";
     }
-    // Done
+    // Done//
 }
