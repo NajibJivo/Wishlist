@@ -36,14 +36,14 @@ class WishlistServiceTest {
     }
 
     @Test
-    void getAllWishlist_shouldReturnAllWishlists(){
+    void getAllWishlists_shouldReturnAllWishlists(){
 
         // Arrange
         List<Wishlist> mockList = List.of(new Wishlist(), new Wishlist());
         when(wishlistRepository.findAll()).thenReturn(mockList);
 
         // Act
-        List<Wishlist> result = wishlistService.getAllWishList();
+        List<Wishlist> result = wishlistService.getAllWishLists();
 
         // Assert
         assertEquals(2, result.size());

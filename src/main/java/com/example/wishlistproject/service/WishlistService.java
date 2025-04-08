@@ -20,7 +20,7 @@ public class WishlistService {
         wishlistRepository.save(wishlist);
     }
 
-    public List<Wishlist> getAllWishList() {
+    public List<Wishlist> getAllWishLists() {
         return wishlistRepository.findAll();
     }
 
@@ -28,12 +28,16 @@ public class WishlistService {
         return wishlistRepository.findByUserId(userId);
     }
 
-    public Wishlist getWishlistById(Long id) {
-        return wishlistRepository.findById(id);
+    public void updateWishlist(Long id, Wishlist updatedWishlist) {
+        // Vi behøver ikke bruge 'id' direkte her, da updatedWishlist allerede har id sat
+        wishlistRepository.update(updatedWishlist);
     }
 
-    public void test(){
-        // callauan akfjaskfj
-        // return value;
+    public void deleteWishlist(Long id) {
+        wishlistRepository.deleteById(id);
+    }
+
+    public Wishlist getWishlistById(Long id) {
+        return wishlistRepository.findById(id);
     }
 }

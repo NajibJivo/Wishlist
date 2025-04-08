@@ -6,7 +6,7 @@ public class Product {
     private String name;
     private String description;
 
-    public Product(int productId, double price, String name, String description) {
+    public Product() {
         this.productId = productId;
         this.price = price;
         this.name = name;
@@ -57,4 +57,12 @@ public class Product {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    public void setId(Long id) {
+    }
+
+    public Object getId() {
+        return null;
+    }
 }
+

@@ -60,4 +60,40 @@ public class WishlistController {
         model.addAttribute("wishlists", wishlistService.getWishlistsForUser(userId));
         return "wishlist-list";
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteWishlist(@PathVariable Long id, HttpSession session) {
+        Object userIdObj = session.getAttribute("userId");
+        if(userIdObj == null) {
+            return "redirect:/login";
+        }
+
+        wishlistService.deleteWishlist(id);
+        return "redirect:/wishlist/list";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, HttpSession session, Model model) {
+        Object userIdObj = session.getAttribute("userId");
+        if(userIdObj == null) {
+            return "redirect/:login";
+        }
+
+        Wishlist wishlist = wishlistService.getWishlistById(id);
+        model.addAttribute("wishlist", wishlist);
+        return "edit-wislist";
+    }
+
+    @PostMapping("/update")
+    public String updateWishlist(@ModelAttribute Wishlist wishlist, HttpSession session) {
+        Object userIdObj = session.getAttribute("userId");
+        if(userIdObj == null) {
+            return "redirect:/login";
+        }
+
+        Long userId = Long.valueOf(userIdObj.toString());
+        wishlist.setUserId(userId); // sikrer at brugeren ikke kan ændre id manuelt i HTML
+        wishlistService.updateWishlist(wishlist.getWishlistId(), wishlist);
+        return "redirect:/wishlist/list";
+    }
 }
