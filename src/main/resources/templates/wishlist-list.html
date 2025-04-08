@@ -22,6 +22,9 @@
     <div class="wishlist-grid">
         <!-- Loop through existing wishlists -->
         <div th:each="wishlist, iterStat : ${wishlists}" class="wishlist-card">
+
+            <!-- a clickable link for the entire card -->
+            <a th:href="@{/wishlist/{id}(id=${wishlist.wishlistId})}" class="card-link">
             <div class="card-content">
                 <div class="card-number" th:text="${iterStat.count} + '.'"></div>
                 <div class="card-title" th:text="${wishlist.name}">Fik ikke fat i navnet</div>
@@ -37,6 +40,7 @@
                     <p th:text="${wishlist.description}"></p>
                 </div>
             </div>
+            </a>
         </div>
 
         <!-- Placeholder card if no wishlists exist -->
