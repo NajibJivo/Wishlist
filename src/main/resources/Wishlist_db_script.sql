@@ -1,5 +1,5 @@
 -- 1. Opret database
-CREATE DATABASE wishlist_db;
+CREATE DATABASE IF NOT EXISTS wishlist_db;
 USE wishlist_db;
 
 -- 2. Opret User-tabellen
