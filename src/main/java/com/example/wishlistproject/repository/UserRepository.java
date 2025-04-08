@@ -17,14 +17,14 @@ public class UserRepository {
 
 
     public Optional<User> save(User user) {
-        String sql = "INSERT INTO user (name, email, password) VALUE (?, ?, ?)";
+        String sql = "INSERT INTO Users (name, email, password) VALUE (?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword());
         Long lastId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class); /** Hent det sidst indsatte ID **/
         return findById(lastId); /** Returner den oprettede bruger **/
     }
 
     public Optional<User> findById(Long id) {
-        String sql = "SELECT * FROM user WHERE user_id = ?";
+        String sql = "SELECT * FROM Users WHERE user_id = ?";
         return jdbcTemplate.query(sql, new Object[]{id}, rs -> {
             if (rs.next()) {
                 User user = new User();
@@ -40,7 +40,7 @@ public class UserRepository {
     }
 
     public Optional<User> findByEmail(String email) {
-        String sql = "SELECT * FROM user WHERE email = ?";
+        String sql = "SELECT * FROM Users WHERE email = ?";
         return jdbcTemplate.query(sql, new Object[]{email}, rs->{
            if(rs.next()) {
                User user = new User();
@@ -56,7 +56,7 @@ public class UserRepository {
     }
 
     public List<User> findAll() {
-        String sql = "SELECT * FROM user";
+        String sql = "SELECT * FROM Users";
         return jdbcTemplate.query(sql, (rs, rowNum)-> {
             User user = new User();
             user.setUserId(rs.getLong("user_id"));
