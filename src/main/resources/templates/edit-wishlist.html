@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Update</title>
+    <title>Rediger Ønskeliste</title>
 </head>
 <body>
+
+<h1>Rediger ønskeliste</h1>
+
+<form th:action="@{/wishlist/update}" th:object="${wishlist}" method="post">
+
+    <!-- Skjult felt til ID -->
+    <input type="hidden" th:field="*{wishlistId}" />
+
+    <div>
+        <label for="name">Navn:</label>
+        <input type="text" id="name" th:field="*{name}" required />
+    </div>
+
+    <div>
+        <label for="description">Beskrivelse:</label>
+        <textarea id="description" th:field="*{description}" rows="4"></textarea>
+    </div>
+
+    <div>
+        <label for="imageUrl">Billede-URL:</label>
+        <input type="text" id="imageUrl" th:field="*{imageUrl}" />
+    </div>
+
+    <div>
+        <button type="submit">Gem ændringer</button>
+        <a th:href="@{/wishlist/list}">Annullér</a>
+    </div>
+
+</form>
 
 </body>
 </html>

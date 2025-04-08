@@ -49,6 +49,8 @@ class WishlistControllerTest {
                 1L, "test@example.com", "Test Bruger", "test123");
     }
 
+    // ---------- CREATE ----------
+
     @Test
     void createWishlist_shouldRedirectToLogin_whenUserNotLoggedIn() throws Exception {
         mockMvc.perform(post("/wishlist/create")
@@ -74,22 +76,6 @@ class WishlistControllerTest {
         assertEquals("Ferieønsker", wishlists.get(0).getName());
     }
 
-
-
-    /* 🔍 Hvad tester den?           Del	Forklaring
-    get("/wishlist/create")	         Simulerer, at brugeren går ind på siden for at oprette ønskeliste
-    status().isOk()	                 Forventer, at siden loader korrekt (HTTP 200)
-    view().name("create-wishlist")	 Bekræfter, at den rigtige HTML vises
- model().attributeExists("wishlist") Sikrer, at et tomt wishlist-objekt sendes til viewet (til Thymeleaf-formularen)
-    *  */
-    @Test
-    void showCreateForm_shouldCreateWishlistView() throws Exception {
-        mockMvc.perform(get("/wishlist/create"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("create-wishlist"))
-                .andExpect(model().attributeExists("wishlist"));
-    }
-
     @Test
     void createWishlist_shouldSaveImageUrl_whenUserLoggedIn() throws Exception{
         mockMvc.perform(post("/wishlist/create")
@@ -104,5 +90,76 @@ class WishlistControllerTest {
         List<Wishlist> wishlists = wishlistRepository.findByUserId(1l);
         assertEquals(1,wishlists.size());
         assertEquals("https://billede.dk/test.jpg",wishlists.get(0).getImageUrl());
+    }
+
+    @Test
+    void showCreateForm_shouldCreateWishlistView() throws Exception {
+        mockMvc.perform(get("/wishlist/create"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("create-wishlist"))
+                .andExpect(model().attributeExists("wishlist"));
+    }
+
+    // ---------- READ ----------
+
+    @Test
+    void showWishlistList_shouldReturnWishlistListView_whenLoggedIn() throws Exception {
+        wishlistRepository.save(new Wishlist("Testliste", "Beskrivelse", "http://billede.dk", 1L));
+
+        mockMvc.perform(get("/wishlist/list").sessionAttr("userId", 1L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("wishlist-list"))
+                .andExpect(model().attributeExists("wishlists"));
+    }
+
+    // ---------- UPDATE ----------
+
+    @Test
+    void showEditForm_shouldReturnEditWishlistView_whenLoggedIn() throws Exception {
+        Wishlist wishlist = new Wishlist("Testnavn", "Testbeskrivelse", "http://billede.dk", 1L);
+        wishlistRepository.save(wishlist);
+        Long id = wishlistRepository.findByUserId(1L).get(0).getWishlistId();
+
+        mockMvc.perform(get("/wishlist/edit/" + id).sessionAttr("userId", 1L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("edit-wishlist"))
+                .andExpect(model().attributeExists("wishlist"));
+    }
+
+    @Test
+    void updateWishlist_shouldUpdateAndRedirect_whenLoggedIn() throws Exception {
+        Wishlist wishlist = new Wishlist("Gammel navn", "Gammel beskrivelse", "http://gammel.dk", 1L);
+        wishlistRepository.save(wishlist);
+        Long id = wishlistRepository.findByUserId(1L).get(0).getWishlistId();
+
+        mockMvc.perform(post("/wishlist/update")
+                        .sessionAttr("userId", 1L)
+                        .param("wishlistId", String.valueOf(id))
+                        .param("name", "Ny titel")
+                        .param("description", "Ny beskrivelse")
+                        .param("imageUrl", "http://nyt.dk"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wishlist/list"));
+
+        Wishlist updated = wishlistRepository.findById(id);
+        assertEquals("Ny titel", updated.getName());
+        assertEquals("Ny beskrivelse", updated.getDescription());
+        assertEquals("http://nyt.dk", updated.getImageUrl());
+    }
+
+    // ---------- DELETE ----------
+
+    @Test
+    void deleteWishlist_shouldDeleteAndRedirect_whenLoggedIn() throws Exception {
+        Wishlist wishlist = new Wishlist("Slet mig", "Beskrivelse", "http://slet.dk", 1L);
+        wishlistRepository.save(wishlist);
+        Long id = wishlistRepository.findByUserId(1L).get(0).getWishlistId();
+
+        mockMvc.perform(get("/wishlist/delete/" + id).sessionAttr("userId", 1L))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/wishlist/list"));
+
+        List<Wishlist> remaining = wishlistRepository.findByUserId(1L);
+        assertEquals(0, remaining.size());
     }
 }

@@ -81,7 +81,7 @@ public class WishlistController {
 
         Wishlist wishlist = wishlistService.getWishlistById(id);
         model.addAttribute("wishlist", wishlist);
-        return "edit-wislist";
+        return "edit-wishlist";
     }
 
     @PostMapping("/update")
