@@ -6,6 +6,8 @@ public class Product {
     private String name;
     private String description;
 
+    private Long wishlistId;
+
     public Product() {
         this.productId = productId;
         this.price = price;
@@ -13,7 +15,7 @@ public class Product {
         this.description = description;
     }
 
-    public Product(int productId, String description, String product, double price, String link) {
+    public Product(int productId, String description, String product, double price, String link, Long wishlistId) {
     }
 
     public int getProductId() {
@@ -48,21 +50,20 @@ public class Product {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", price=" + price +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 
     public void setId(Long id) {
     }
 
     public Object getId() {
         return null;
+    }
+
+    public void setWishlistId(Long wishlistId) {
+        this.wishlistId = wishlistId;
+    }
+
+    public Long getWishlistId() {
+        return wishlistId;
     }
 }
 

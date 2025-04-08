@@ -54,3 +54,13 @@ CREATE TABLE IF NOT EXISTS Reservation (
     FOREIGN KEY (wishlist_id) REFERENCES Wishlist(wishlist_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES Product(product_id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS products (
+    product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    description TEXT,
+    price DOUBLE,
+    wishlist_id BIGINT,
+    FOREIGN KEY (wishlist_id) REFERENCES wishlist(wishlist_id)
+    );
+

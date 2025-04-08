@@ -1,5 +1,7 @@
 package com.example.wishlistproject.service;
+import com.example.wishlistproject.model.Product;
 import com.example.wishlistproject.model.Wishlist;
+import com.example.wishlistproject.repository.ProductRepository;
 import com.example.wishlistproject.repository.UserRepository;
 import com.example.wishlistproject.repository.WishlistRepository;
 import org.springframework.stereotype.Service;
@@ -10,9 +12,11 @@ import java.util.List;
 public class WishlistService {
 
     private final WishlistRepository wishlistRepository;
+    private final ProductRepository productRepository;
 
-    public WishlistService(WishlistRepository wishlistRepository, UserRepository userRepository) {
+    public WishlistService(WishlistRepository wishlistRepository, UserRepository userRepository, ProductRepository productRepository) {
         this.wishlistRepository = wishlistRepository;
+        this.productRepository = productRepository;
 
     }
 
@@ -39,5 +43,9 @@ public class WishlistService {
 
     public Wishlist getWishlistById(Long id) {
         return wishlistRepository.findById(id);
+    }
+
+    public List<Product> getProductsForWishlist(Long wishlistId) {
+        return productRepository.findByWishlistId(wishlistId);
     }
 }

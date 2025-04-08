@@ -53,4 +53,17 @@ public class ProductRepository {
         String sql = "DELETE FROM products WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
+
+    public List<Product> findByWishlistId(Long wishlistId) {
+        String sql = "SELECT * FROM product WHERE wishlist_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{wishlistId}, (rs, rowNum) -> {
+            Product p = new Product();
+            p.setProductId((int) rs.getLong("product_id"));
+            p.setName(rs.getString("name"));
+            p.setDescription(rs.getString("description"));
+            p.setPrice(rs.getDouble("price"));
+            p.setWishlistId(rs.getLong("wishlist_id"));
+            return p;
+        });
+    }
 }

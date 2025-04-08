@@ -1,11 +1,15 @@
 package com.example.wishlistproject.model;
 
+import java.util.List;
+
 public class Wishlist {
     private Long wishlistId;
     private String name;
     private String description;
     private String imageUrl;
     private Long userId;
+
+    private List<Product> products;
 
     public Wishlist() {
     }
@@ -63,5 +67,14 @@ public class Wishlist {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    // Getters og setters til listen
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
