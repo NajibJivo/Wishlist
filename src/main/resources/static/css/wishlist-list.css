@@ -17,15 +17,7 @@ body {
     font-family: 'Times New Roman', Times, serif;
 }
 
-/* Navbar styles */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #FF6978;
-    padding: 15px 30px; /* Reverted to smaller size */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reverted to smaller size */
-}
+/* Navbar styles removed to avoid conflict with styles.css */
 
 .site-name {
     font-size: 32px; /* Reverted to smaller size */
