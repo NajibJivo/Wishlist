@@ -18,13 +18,12 @@ class WishlistServiceTest {
     @Mock
     private WishlistRepository wishlistRepository;
 
-    @InjectMocks
+    @InjectMocks // Instantierer service automatisk
     private WishlistService wishlistService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this); // Initialiserer mocks
-        wishlistService = new WishlistService(wishlistRepository, null); // userRepository ikke brugt
     }
 
     @Test
@@ -49,17 +48,6 @@ class WishlistServiceTest {
         verify(wishlistRepository).findAll();
     }
 
-    @Test
-    void testGetWishlistsForUser_shouldReturnWishlistForGivenUser() {
-        Long userId = 42L;
-        List<Wishlist> mockList = List.of(new Wishlist());
-        when(wishlistRepository.findByUserId(userId)).thenReturn(mockList);
-
-        List<Wishlist> result = wishlistService.getWishlistsForUser(userId);
-
-        assertEquals(1, result.size());
-        verify(wishlistRepository).findByUserId(userId);
-    }
 
     @Test
     void testGetWishlistForUser_shouldReturnWishlistForGivenUser(){

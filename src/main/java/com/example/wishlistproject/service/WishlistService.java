@@ -14,14 +14,25 @@ public class WishlistService {
     private final WishlistRepository wishlistRepository;
     private final ProductRepository productRepository;
 
-    public WishlistService(WishlistRepository wishlistRepository, UserRepository userRepository, ProductRepository productRepository) {
+    public WishlistService(WishlistRepository wishlistRepository, UserRepository userRepository,
+                           ProductRepository productRepository) {
+
         this.wishlistRepository = wishlistRepository;
         this.productRepository = productRepository;
-
     }
 
     public void createWishlist(Wishlist wishlist) {
         wishlistRepository.save(wishlist);
+        if(wishlist.getProducts() != null) {
+            for(Product product : wishlist.getProducts()) {
+                product.setWishlistId(wishlist.getWishlistId());
+                productRepository.save(product);
+            }
+        }
+    }
+
+    public List<Product> getProductsForWishlist(Long wishlistId) {
+        return productRepository.findByWishlistId(wishlistId);
     }
 
     public List<Wishlist> getAllWishLists() {
@@ -43,9 +54,5 @@ public class WishlistService {
 
     public Wishlist getWishlistById(Long id) {
         return wishlistRepository.findById(id);
-    }
-
-    public List<Product> getProductsForWishlist(Long wishlistId) {
-        return productRepository.findByWishlistId(wishlistId);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/wishlist/{wishlistId}/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -17,48 +17,63 @@ public class ProductController {
         this.productService = productService;
     }
 
+    // Vis liste over produkter tilhørende en ønskeliste
     @GetMapping
-    public String listProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
+    public String listProducts(@PathVariable Long wishlistId, Model model) {
+        List<Product> products = productService.getProductsByWishlistId(wishlistId);
         model.addAttribute("products", products);
-        return "product/list"; // Refers to product/list.html Thymeleaf template
+        model.addAttribute("wishlistId", wishlistId);
+        return "product/list"; // eks. product/list.html
     }
 
+    // Vis ét produkt
     @GetMapping("/{id}")
-    public String viewProduct(@PathVariable Long id, Model model) {
+    public String viewProduct(@PathVariable Long wishlistId, @PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("wishlistId", wishlistId);
         return "product/view"; // Refers to product/view.html Thymeleaf template
     }
 
+    // Vis formular til nyt produkt
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        model.addAttribute("product", new Product());
+    public String showCreateForm(@PathVariable Long wishlistId, Model model) {
+        Product product = new Product();
+        product.setWishlistId(wishlistId);
+        model.addAttribute("product", product);
+        model.addAttribute("wishlistId", wishlistId);
         return "product/form"; // Refers to product/form.html Thymeleaf template
     }
 
+    // Gem produkt
     @PostMapping
-    public String createProduct(@ModelAttribute Product product) {
+    public String createProduct(@PathVariable Long wishlistId, @ModelAttribute Product product) {
+        product.setWishlistId(wishlistId); // sikrer kobling
         productService.addProduct(product);
-        return "redirect:/products";
+        return "redirect:/wishlist" + wishlistId + "/product";
     }
 
+    // Rediger produkt
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    public String showEditForm(@PathVariable Long wishlistId, @PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("wishlistId", wishlistId);
         return "product/form"; // Refers to product/form.html Thymeleaf template
     }
 
+    // Opdater produkt
     @PostMapping("/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
+    public String updateProduct(@PathVariable Long wishlistId, @PathVariable Long id, @ModelAttribute Product product) {
+        product.setWishlistId(wishlistId);
         productService.updateProduct(id, product);
-        return "redirect:/products";
+        return "redirect:/wishlist" + wishlistId + "/product";
     }
 
+    // Slet produkt
     @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
+    public String deleteProduct(@PathVariable Long wishlistId, @PathVariable Long id) {
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return "redirect:/wishlist/" + wishlistId + "/product";
     }
 }

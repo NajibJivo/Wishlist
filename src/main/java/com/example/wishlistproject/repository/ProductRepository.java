@@ -18,17 +18,19 @@ public class ProductRepository {
     // RowMapper to map result set to Product object
     private final RowMapper<Product> productRowMapper = (rs, rowNum) -> {
         Product product = new Product();
-        product.setId(rs.getLong("id"));
+        product.setProductId(rs.getLong("id")); // 'id' is product's primary key
         product.setName(rs.getString("name"));
         product.setDescription(rs.getString("description"));
         product.setPrice(rs.getDouble("price"));
+        product.setWishlistId(rs.getLong("wishlist_id"));
         return product;
     };
 
     // Create
     public int save(Product product) {
-        String sql = "INSERT INTO products (name, description, price) VALUES (?, ?, ?)";
-        return jdbcTemplate.update(sql, product.getName(), product.getDescription(), product.getPrice());
+        String sql = "INSERT INTO products (name, description, price, wishlist_id) VALUES (?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, product.getName(), product.getDescription(),
+                product.getPrice(), product.getWishlistId());
     }
 
     // Read
@@ -44,26 +46,22 @@ public class ProductRepository {
 
     // Update
     public int update(Product product) {
-        String sql = "UPDATE products SET name = ?, description = ?, price = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, product.getName(), product.getDescription(), product.getPrice(), product.getId());
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, wishlist_id = ? WHERE product_id = ?";
+        return jdbcTemplate.update(sql, product.getName(), product.getDescription(),
+                product.getPrice(), product.getWishlistId(), product.getProductId());
     }
 
     // Delete
     public int deleteById(Long id) {
-        String sql = "DELETE FROM products WHERE id = ?";
+        String sql = "DELETE FROM products WHERE produc_id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
+    /**
+     * Returnerer alle produkter for en given ønskeliste (baseret på wishlistId).
+     */
     public List<Product> findByWishlistId(Long wishlistId) {
-        String sql = "SELECT * FROM product WHERE wishlist_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{wishlistId}, (rs, rowNum) -> {
-            Product p = new Product();
-            p.setProductId((int) rs.getLong("product_id"));
-            p.setName(rs.getString("name"));
-            p.setDescription(rs.getString("description"));
-            p.setPrice(rs.getDouble("price"));
-            p.setWishlistId(rs.getLong("wishlist_id"));
-            return p;
-        });
+        String sql = "SELECT * FROM products WHERE wishlist_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{wishlistId}, productRowMapper);
     }
 }

@@ -1,49 +1,42 @@
 package com.example.wishlistproject.model;
 
 public class Product {
-    private int productId;
-    private double price;
+    private Long productId;
     private String name;
     private String description;
-
+    private double price;
     private Long wishlistId;
 
     public Product() {
-        this.productId = productId;
-        this.price = price;
+        // Tom default constructor
+    }
+
+    public Product(String name, String description, double price, Long wishlistId) {
         this.name = name;
         this.description = description;
+        this.price = price;
+        this.wishlistId = wishlistId;
+
     }
 
-    public Product(int productId, String description, String product, double price, String link, Long wishlistId) {
-    }
-
-    public int getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public double getPrice() {
-        return price;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
@@ -51,19 +44,20 @@ public class Product {
     }
 
 
-    public void setId(Long id) {
+    public double getPrice() {
+        return price;
     }
 
-    public Object getId() {
-        return null;
-    }
-
-    public void setWishlistId(Long wishlistId) {
-        this.wishlistId = wishlistId;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public Long getWishlistId() {
         return wishlistId;
+    }
+
+    public void setWishlistId(Long wishlistId) {
+        this.wishlistId = wishlistId;
     }
 }
 
