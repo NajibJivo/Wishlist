@@ -1,4 +1,5 @@
 package com.example.wishlistproject.controller;
+import com.example.wishlistproject.model.Product;
 import com.example.wishlistproject.model.User;
 import com.example.wishlistproject.model.Wishlist;
 import com.example.wishlistproject.service.UserService;
@@ -96,4 +97,19 @@ public class WishlistController {
         wishlistService.updateWishlist(wishlist.getWishlistId(), wishlist);
         return "redirect:/wishlist/list";
     }
+
+    @GetMapping("/view/{id}")
+    public String viewWishlist(@PathVariable Long id, Model model, HttpSession session) {
+        Object userIdObj = session.getAttribute("userId");
+        if(userIdObj == null) {
+            return "redirect:/login";
+        }
+//        Product product = new Product();
+//        model.addAttribute("product", product);
+
+        Wishlist wishlist = wishlistService.getWishlistById(id);
+        model.addAttribute("wishlist", wishlist);
+        return "wishlist-content";
+    }
+
 }
