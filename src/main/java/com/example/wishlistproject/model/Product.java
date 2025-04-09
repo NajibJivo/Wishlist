@@ -6,16 +6,20 @@ public class Product {
     private String description;
     private double price;
     private Long wishlistId;
+    private String wishUrl;
+    private String purchaseUrl;
 
     public Product() {
         // Tom default constructor
     }
 
-    public Product(String name, String description, double price, Long wishlistId) {
+    public Product(String name, String description, double price, Long wishlistId, String wishUrl, String purchaseUrl) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.wishlistId = wishlistId;
+        this.wishUrl = wishUrl;
+        this.purchaseUrl = purchaseUrl;
 
     }
 
@@ -58,6 +62,22 @@ public class Product {
 
     public void setWishlistId(Long wishlistId) {
         this.wishlistId = wishlistId;
+    }
+
+    public String getWishUrl() {
+        return wishUrl;
+    }
+
+    public void setWishUrl(String wishUrl){
+        this.wishUrl = wishUrl;
+    }
+
+    public String getPurchaseUrl() {
+        return purchaseUrl;
+    }
+
+    public void setPurchaseUrl(String purchaseUrl) {
+        this.purchaseUrl = purchaseUrl;
     }
 }
 

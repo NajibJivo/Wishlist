@@ -18,19 +18,21 @@ public class ProductRepository {
     // RowMapper to map result set to Product object
     private final RowMapper<Product> productRowMapper = (rs, rowNum) -> {
         Product product = new Product();
-        product.setProductId(rs.getLong("id")); // 'id' is product's primary key
+        product.setProductId(rs.getLong("product_id")); // 'id' is product's primary key
         product.setName(rs.getString("name"));
         product.setDescription(rs.getString("description"));
         product.setPrice(rs.getDouble("price"));
         product.setWishlistId(rs.getLong("wishlist_id"));
+        product.setWishUrl(rs.getString("wish_url"));
         return product;
     };
 
     // Create
     public int save(Product product) {
-        String sql = "INSERT INTO products (name, description, price, wishlist_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO products (name, description, price, wishlist_id, wish_url, purchase_url)" +
+                " VALUES (?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, product.getName(), product.getDescription(),
-                product.getPrice(), product.getWishlistId());
+                product.getPrice(), product.getWishlistId(), product.getWishUrl(), product.getPurchaseUrl());
     }
 
     // Read
@@ -40,20 +42,22 @@ public class ProductRepository {
     }
 
     public Product findById(Long id) {
-        String sql = "SELECT * FROM products WHERE id = ?";
+        String sql = "SELECT * FROM products WHERE produt_id = ?";
         return jdbcTemplate.queryForObject(sql, productRowMapper, id);
     }
 
     // Update
     public int update(Product product) {
-        String sql = "UPDATE products SET name = ?, description = ?, price = ?, wishlist_id = ? WHERE product_id = ?";
+        String sql = "UPDATE products SET name = ?, description = ?, price = ?, wishlist_id = ?, wish_url = ?, " +
+                "purchase_url = ? WHERE product_id = ?";
         return jdbcTemplate.update(sql, product.getName(), product.getDescription(),
-                product.getPrice(), product.getWishlistId(), product.getProductId());
+                product.getPrice(), product.getWishlistId(), product.getProductId(), product.getWishUrl(),
+                product.getPurchaseUrl());
     }
 
     // Delete
     public int deleteById(Long id) {
-        String sql = "DELETE FROM products WHERE produc_id = ?";
+        String sql = "DELETE FROM products WHERE product_id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
