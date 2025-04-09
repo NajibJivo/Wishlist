@@ -104,8 +104,8 @@ public class WishlistController {
         if(userIdObj == null) {
             return "redirect:/login";
         }
-//        Product product = new Product();
-//        model.addAttribute("product", product);
+
+      // model.addAttribute("product", product);
 
         Wishlist wishlist = wishlistService.getWishlistById(id);
         model.addAttribute("wishlist", wishlist);

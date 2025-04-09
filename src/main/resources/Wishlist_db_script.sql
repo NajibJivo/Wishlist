@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS Users (
     name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_id)
-    );
+);
 
 -- 3. Opret Wishlist-tabellen
 CREATE TABLE IF NOT EXISTS Wishlist (

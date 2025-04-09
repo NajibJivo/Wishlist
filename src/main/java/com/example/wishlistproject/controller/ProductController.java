@@ -41,16 +41,17 @@ public class ProductController {
         Product product = new Product();
         product.setWishlistId(wishlistId);
         model.addAttribute("product", product);
-        model.addAttribute("wishlistId", wishlistId);
-        return "product/form"; // Refers to product/form.html Thymeleaf template
+        return "product-form"; // Refers to product/form.html Thymeleaf template
     }
 
     // Gem produkt
-    @PostMapping
+    @PostMapping("/new")
     public String createProduct(@PathVariable Long wishlistId, @ModelAttribute Product product) {
         product.setWishlistId(wishlistId); // sikrer kobling
         productService.addProduct(product);
-        return "redirect:/wishlist" + wishlistId + "/product";
+        return "redirect:/wishlist/view/" + wishlistId;
+
+
     }
 
     // Rediger produkt
@@ -71,9 +72,9 @@ public class ProductController {
     }
 
     // Slet produkt
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable Long wishlistId, @PathVariable Long id) {
-        productService.deleteProduct(id);
-        return "redirect:/wishlist/" + wishlistId + "/product";
+    @PostMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable Long wishlistId, @PathVariable Long productId) {
+        productService.deleteProduct(productId);
+        return "redirect:/wishlist/view/" + wishlistId;
     }
 }

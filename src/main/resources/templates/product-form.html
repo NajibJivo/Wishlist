@@ -17,37 +17,37 @@
         <h2>Opret nyt ønske</h2> <!-- Overskrift på formularen -->
 
         <!-- Formular til at oprette et nyt ønske, sender POST-request til /wish/create -->
-        <form th:action="@{/wish/create}" method="post" th:object="${product}">
+        <form th:action="@{'/wishlist/'+${wishlistId}+'/product/new'}" method="post" th:object="${product}">
 
             <!-- Inputfelt til ønskets titel -->
             <div class="form-group">
                 <label for="name">Titel:</label>
-                <input type="text" id="name" th:field="*{product.name}" required />
+                <input type="text" id="name" th:field="*{name}" required />
             </div>
 
             <!-- Inputfelt til link hvor ønsket kan købes -->
             <div class="form-group">
                 <label for="purchaseUrl">Link:</label>
-                <input type="url" id="purchaseUrl" th:field="*{product.purchase_url}" placeholder="https://example.com/product" />
+                <input type="url" id="purchaseUrl" th:field="*{purchaseUrl}" placeholder="https://example.com/product" />
                 <small class="form-text">Indsæt et link til hvor produktet kan købes</small>
             </div>
 
             <!-- Tekstfelt til beskrivelse af ønsket -->
             <div class="form-group">
                 <label for="description">Beskrivelse:</label>
-                <textarea id="description" th:field="*{product.description}"></textarea>
+                <textarea id="description" th:field="*{description}"></textarea>
             </div>
 
             <!-- Inputfelt til ønskets pris -->
             <div class="form-group">
                 <label for="price">Pris:</label>
-                <input type="number" id="price" th:field="*{product.price}" step="0.01" />
+                <input type="number" id="price" th:field="*{price}" step="0.01" />
             </div>
 
             <!-- Inputfelt til billede af ønsket (valgfrit) -->
             <div class="form-group">
                 <label for="wishUrl">Billede:</label>
-                <input type="url" id="wishUrl" th:field="*{product.wish_url}" placeholder="https://example.com/image.jpg" />
+                <input type="url" id="wishUrl" th:field="*{wishUrl}" placeholder="https://example.com/image.jpg" />
                 <small class="form-text">Indsæt et link til et billede af ønsket (valgfrit)</small>
             </div>
 

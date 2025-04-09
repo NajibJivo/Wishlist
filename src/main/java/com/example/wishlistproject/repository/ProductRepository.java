@@ -24,12 +24,13 @@ public class ProductRepository {
         product.setPrice(rs.getDouble("price"));
         product.setWishlistId(rs.getLong("wishlist_id"));
         product.setWishUrl(rs.getString("wish_url"));
+        product.setPurchaseUrl("purchase_url");
         return product;
     };
 
     // Create
     public int save(Product product) {
-        String sql = "INSERT INTO products (name, description, price, wishlist_id, wish_url, purchase_url)" +
+        String sql = "INSERT INTO Products (name, description, price, wishlist_id, wish_url, purchase_url)" +
                 " VALUES (?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, product.getName(), product.getDescription(),
                 product.getPrice(), product.getWishlistId(), product.getWishUrl(), product.getPurchaseUrl());
@@ -37,7 +38,7 @@ public class ProductRepository {
 
     // Read
     public List<Product> findAll() {
-        String sql = "SELECT * FROM products";
+        String sql = "SELECT * FROM Products";
         return jdbcTemplate.query(sql, productRowMapper);
     }
 
