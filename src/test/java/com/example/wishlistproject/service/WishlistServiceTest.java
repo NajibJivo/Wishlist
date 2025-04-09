@@ -30,6 +30,7 @@ class WishlistServiceTest {
     void testCreateWishlist_shouldCallRepositorySave() {
         Wishlist wishlist = new Wishlist();
         wishlist.setName("Ferie");
+
         wishlist.setUserId(1L);
 
         wishlistService.createWishlist(wishlist);
