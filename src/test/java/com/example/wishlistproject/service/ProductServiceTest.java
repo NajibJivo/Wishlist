@@ -4,9 +4,7 @@ import com.example.wishlistproject.model.Product;
 import com.example.wishlistproject.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+
 
 import java.util.List;
 
@@ -15,77 +13,53 @@ import static org.mockito.Mockito.*;
 
 class ProductServiceTest {
 
-    @Mock
     private ProductRepository productRepository;
-
-    @InjectMocks
     private ProductService productService;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this); // Initialiserer mocks
+        productRepository = mock(ProductRepository.class);
         productService = new ProductService(productRepository);
     }
 
     @Test
-    void testAddProduct_shouldCallRepositorySave() {
+    void testAddProduct_shouldCallSaveOnce() {
         Product product = new Product();
-        product.setName("Laptop");
-        product.setDescription("High-end laptop");
-        product.setPrice(999.99);
-        product.setWishlistId(1L);  // Brug Long for wishlistId
-
         productService.addProduct(product);
-
         verify(productRepository, times(1)).save(product);
     }
 
     @Test
-    void testGetProductById_shouldReturnProduct() {
-        Long productId = 1L;  // Brug Long for produkt-id
-        Product product = new Product();
-        product.setProductId(productId);
-        product.setName("Laptop");
+    void testGetProductById_shouldReturnCorrectProduct() {
+        Product mockProduct = new Product();
+        mockProduct.setProductId(1L);
+        when(productRepository.findById(1L)).thenReturn(mockProduct);
 
-        when(productRepository.findById(productId)).thenReturn(product);
-
-        Product result = productService.getProductById(productId);
-
-        assertNotNull(result);
-        assertEquals(productId, result.getProductId());
-        verify(productRepository).findById(productId);
+        Product result = productService.getProductById(1L);
+        assertEquals(1L, result.getProductId());
+        verify(productRepository, times(1)).findById(1L);
     }
 
     @Test
-    void testGetProductsByWishlistId_shouldReturnProducts() {
-        Long wishlistId = 1L;  // Brug Long for wishlistId
-        List<Product> mockProducts = List.of(new Product(), new Product());
-        when(productRepository.findByWishlistId(wishlistId)).thenReturn(mockProducts);
+    void testGetProductsByWishlistId_shouldReturnList() {
+        when(productRepository.findByWishlistId(5L)).thenReturn(List.of(new Product(), new Product()));
 
-        List<Product> result = productService.getProductsByWishlistId(wishlistId);
-
+        List<Product> result = productService.getProductsByWishlistId(5L);
         assertEquals(2, result.size());
-        verify(productRepository).findByWishlistId(wishlistId);
+        verify(productRepository).findByWishlistId(5L);
     }
 
     @Test
-    void testUpdateProduct_shouldCallRepositoryUpdate() {
-        Long productId = 1L;  // Brug 'Long' for produkt-id
+    void testUpdateProduct_shouldSetIdAndCallUpdate() {
         Product product = new Product();
-        product.setProductId(productId);
-        product.setName("Updated Product");
-
-        productService.updateProduct(productId, product);
-
+        productService.updateProduct(10L, product);
+        assertEquals(10L, product.getProductId());
         verify(productRepository).update(product);
     }
 
     @Test
-    void testDeleteProduct_shouldCallRepositoryDeleteById() {
-        Long productId = 1L;  //  Long for produkt-id
-
-        productService.deleteProduct(productId);
-
-        verify(productRepository).deleteById(productId);
+    void testDeleteProduct_shouldCallDeleteById() {
+        productService.deleteProduct(88L);
+        verify(productRepository).deleteById(88L);
     }
 }

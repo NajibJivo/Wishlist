@@ -1,11 +1,13 @@
 package com.example.wishlistproject.service;
 
+import com.example.wishlistproject.model.Product;
 import com.example.wishlistproject.model.Wishlist;
+import com.example.wishlistproject.repository.ProductRepository;
+import com.example.wishlistproject.repository.UserRepository;
 import com.example.wishlistproject.repository.WishlistRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
@@ -15,83 +17,91 @@ import static org.mockito.Mockito.*;
 
 class WishlistServiceTest {
 
-    @Mock
-    private WishlistRepository wishlistRepository;
-
-    @InjectMocks // Instantierer service automatisk
+    private  WishlistRepository wishlistRepo;
+    private ProductRepository productRepo;
     private WishlistService wishlistService;
+
+
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this); // Initialiserer mocks
+        wishlistRepo= mock(WishlistRepository.class);
+        productRepo = mock(ProductRepository.class);
+        wishlistService = new WishlistService(wishlistRepo, mock(UserRepository.class), productRepo);
     }
 
     @Test
-    void testCreateWishlist_shouldCallRepositorySave() {
+    void testCreateWishlist_shouldSavedWishlist() {
         Wishlist wishlist = new Wishlist();
-        wishlist.setName("Ferie");
-
-        wishlist.setUserId(1L);
+        wishlist.setDescription("Test beskrivelse");
 
         wishlistService.createWishlist(wishlist);
 
-        verify(wishlistRepository, times(1)).save(wishlist);
+        verify(wishlistRepo, times(1)).save(wishlist);
     }
 
     @Test
-    void testGetAllWishlists_shouldReturnAllWishlists(){
-        List<Wishlist> mockList = List.of(new Wishlist(), new Wishlist());
-        when(wishlistRepository.findAll()).thenReturn(mockList);
-
-        List<Wishlist> result = wishlistService.getAllWishLists();
-
-        assertEquals(2, result.size());
-        verify(wishlistRepository).findAll();
-    }
-
-
-    @Test
-    void testGetWishlistForUser_shouldReturnWishlistForGivenUser(){
-        Long userId = 42L;
-        List<Wishlist> mockList = List.of(new Wishlist());
-        when(wishlistRepository.findByUserId(userId)).thenReturn(mockList);
+    void testGetWishlistForUser_shouldReturnList() {
+        Long userId = 1L;
+        when(wishlistRepo.findByUserId(userId)).thenReturn(List.of(new Wishlist()));
 
         List<Wishlist> result = wishlistService.getWishlistsForUser(userId);
 
         assertEquals(1, result.size());
-        verify(wishlistRepository).findByUserId(userId);
+        verify(wishlistRepo, times(1)).findByUserId(userId);
     }
 
     @Test
-    void testGetWishlistById_shouldReturnCorrectWishlist(){
-        Wishlist wishlist = new Wishlist();
-        wishlist.setWishlistId(7L);
+    void deleteWishlist_callsRepositoryWithCorrectId() {
+        Long wishlistId = 42L;
 
-        when(wishlistRepository.findById(7L)).thenReturn(wishlist);
+        wishlistService.deleteWishlist(wishlistId);
+
+        verify(wishlistRepo).deleteById(wishlistId);
+    }
+
+    @Test
+    void getProductsForWishlist_shouldReturnProductList() {
+        Long wishlistId = 1L;
+        when(productRepo.findByWishlistId(wishlistId)).thenReturn(List.of(new Product()));
+
+        var result = wishlistService.getProductsForWishlist(wishlistId);
+
+        assertEquals(1, result.size());
+        verify(productRepo).findByWishlistId(wishlistId);
+    }
+
+    @Test
+    void getAllWishLists_shouldReturnAll() {
+        when(wishlistRepo.findAll()).thenReturn(List.of(new Wishlist(), new Wishlist()));
+
+        var result = wishlistService.getAllWishLists();
+
+        assertEquals(2, result.size());
+        verify(wishlistRepo).findAll();
+    }
+
+    @Test
+    void updateWishlist_shouldCallRepo() {
+        Wishlist updated = new Wishlist();
+        updated.setWishlistId(10L);
+        updated.setName("Opdateret");
+
+        wishlistService.updateWishlist(10L, updated);
+
+        verify(wishlistRepo).update(updated);
+    }
+
+    @Test
+    void getWishlistById_shouldReturnWishlist() {
+        Wishlist wish = new Wishlist();
+        wish.setWishlistId(7L);
+        when(wishlistRepo.findById(7L)).thenReturn(wish);
 
         Wishlist result = wishlistService.getWishlistById(7L);
 
         assertNotNull(result);
         assertEquals(7L, result.getWishlistId());
-
-        verify(wishlistRepository).findById(7L);
-    }
-
-    @Test
-    void testUpdateWishlist_shouldCallRepositoryUpdate() {
-        Wishlist wishlist = new Wishlist();
-        wishlist.setWishlistId(3L);
-        wishlist.setName("Opdateret");
-
-        wishlistService.updateWishlist(3L, wishlist);
-
-        verify(wishlistRepository).update(wishlist);
-    }
-
-    @Test
-    void deleteWishlist_shouldCallRepositoryDeleteById() {
-        wishlistService.deleteWishlist(5L);
-
-        verify(wishlistRepository).deleteById(5L);
+        verify(wishlistRepo).findById(7L);
     }
 }
