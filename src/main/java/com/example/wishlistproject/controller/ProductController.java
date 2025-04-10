@@ -1,6 +1,7 @@
 package com.example.wishlistproject.controller;
 
 import com.example.wishlistproject.model.Product;
+import com.example.wishlistproject.model.Wishlist;
 import com.example.wishlistproject.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +22,16 @@ public class ProductController {
     @GetMapping
     public String listProducts(@PathVariable Long wishlistId, Model model) {
         List<Product> products = productService.getProductsByWishlistId(wishlistId);
-        model.addAttribute("products", products);
-        model.addAttribute("wishlistId", wishlistId);
-        return "product/list"; // eks. product/list.html
+
+        Wishlist wishlist = new Wishlist();
+        wishlist.setWishlistId(wishlistId);
+        wishlist.setProducts(products);
+        // Tilføj evt. dummy-navn/beskrivelse hvis du ikke har dem endnu:
+        wishlist.setName("Min ønskeliste");
+        wishlist.setDescription("Beskrivelse her");
+
+        model.addAttribute("wishlist", wishlist);
+        return "wishlist-content";
     }
 
     // Vis ét produkt
@@ -60,7 +68,7 @@ public class ProductController {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("wishlistId", wishlistId);
-        return "product/form"; // Refers to product/form.html Thymeleaf template
+        return "product-form"; // Refers to product/form.html Thymeleaf template
     }
 
     // Opdater produkt
@@ -68,7 +76,7 @@ public class ProductController {
     public String updateProduct(@PathVariable Long wishlistId, @PathVariable Long id, @ModelAttribute Product product) {
         product.setWishlistId(wishlistId);
         productService.updateProduct(id, product);
-        return "redirect:/wishlist" + wishlistId + "/product";
+        return "redirect:/wishlist/" + wishlistId + "/product";
     }
 
     // Slet produkt

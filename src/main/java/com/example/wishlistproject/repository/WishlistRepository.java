@@ -53,7 +53,7 @@ public class WishlistRepository  {
 
 
         // Step 2: Fetch associated Products
-        String productsSql = "SELECT * FROM products WHERE wishlist_id = ?"; // Assuming table name is 'products'
+        String productsSql = "SELECT * FROM product WHERE wishlist_id = ?"; // Assuming table name is 'products'
         List<Product> products = jdbcTemplate.query(productsSql, new Object[]{id}, new ProductRowMapper()); // Use a RowMapper
 
         // Step 3: Add products to the wishlist

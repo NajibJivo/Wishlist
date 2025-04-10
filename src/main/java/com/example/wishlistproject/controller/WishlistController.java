@@ -1,6 +1,4 @@
 package com.example.wishlistproject.controller;
-import com.example.wishlistproject.model.Product;
-import com.example.wishlistproject.model.User;
 import com.example.wishlistproject.model.Wishlist;
 import com.example.wishlistproject.service.UserService;
 import com.example.wishlistproject.service.WishlistService;
